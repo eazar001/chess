@@ -1,0 +1,8 @@
+.vs/
+Library/
+chess.CSharp.csproj
+chess.exe
+chess.sln
+chess_Data/
+output_log.txt
+Temp/
