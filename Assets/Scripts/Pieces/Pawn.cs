@@ -9,4 +9,8 @@ using System.Collections;
 /// </summary>
 public class Pawn: Piece {
 
+    public override void MoveTo(Vector2 pos) {
+        PlaceAt(pos);
+
+    }
 }

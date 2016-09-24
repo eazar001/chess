@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// The king's moveset is precisely like the queen's barring one tenet: it's directional magnitude
@@ -8,4 +9,8 @@ using System.Collections;
 /// </summary>
 public class King: Piece {
 
+    public override void MoveTo(Vector2 pos) {
+        PlaceAt(pos);
+
+    }
 }

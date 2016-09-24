@@ -7,4 +7,8 @@ using System;
 /// </summary>
 public class Knight: Piece {
 
+    public override void MoveTo(Vector2 pos) {
+        PlaceAt(pos);
+
+    }
 }

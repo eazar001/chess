@@ -34,7 +34,7 @@ public abstract class Piece: MonoBehaviour {
 
     public abstract void MoveTo(Vector2 pos);
 
-    void PlaceAt(Vector2 pos) {
+    protected void PlaceAt(Vector2 pos) {
         BoardManager.srcPiece.transform.position = pos;
         BoardManager.srcPiece.transform.position += Vector3.forward;
         BoardManager.srcSquare.myPiece = null;
