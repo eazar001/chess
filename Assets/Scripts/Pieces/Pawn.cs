@@ -12,12 +12,22 @@ public class Pawn: Piece {
     bool firstMove = true;
 
     public override bool ValidMove(Vector2 pos) {
+        Vector2 dir = Vector2.up;
         Vector2 d1 = new Vector2(xMove, yMove);
         Vector2 d2 = new Vector2(-xMove, yMove);
+        Vector2 y = y1;
         Vector2 myPos = transform.position;
 
-        if(firstMove && pos == myPos + 2*y1) {
-            RaycastHit2D up = Physics2D.Raycast(myPos, Vector2.up, 2*yMove, 1);
+        if(GetAffiliation() == Player.Black) {
+            dir = -dir;
+            d1 = -d1;
+            d2 = -d2;
+            y = -y;
+        }
+
+
+        if(firstMove && pos == myPos + 2*y) {
+            RaycastHit2D up = Physics2D.Raycast(myPos, dir, 2*yMove, 1);
 
             if(up.collider == null) {
                 firstMove = false;
@@ -25,8 +35,8 @@ public class Pawn: Piece {
             }
         }
 
-        if((pos == myPos + y1)) {
-            RaycastHit2D up = Physics2D.Raycast(myPos, Vector2.up, yMove, 1);
+        if((pos == myPos + y)) {
+            RaycastHit2D up = Physics2D.Raycast(myPos, dir, yMove, 1);
 
             if(up.collider == null) {
                 firstMove = false;
