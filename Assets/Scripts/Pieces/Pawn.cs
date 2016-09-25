@@ -9,8 +9,11 @@ using System.Collections;
 /// </summary>
 public class Pawn: Piece {
 
-    public override void MoveTo(Vector2 pos) {
-        PlaceAt(pos);
+    public override bool ValidMove(Vector2 pos) {
+        if(pos == (Vector2)transform.position + y1) {
+            return true;
+        }
 
+        return false;
     }
 }

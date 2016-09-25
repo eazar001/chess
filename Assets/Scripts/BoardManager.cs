@@ -6,7 +6,7 @@ public class BoardManager {
     GameObject[] allObjs;
     GameObject lightSquare, darkSquare;
 
-    float xMove, yMove;
+    public static float xMove, yMove;
     public static bool squareSelected { get; set; }
     public static Piece srcPiece { get; set; }
     public static Square srcSquare { get; set; }

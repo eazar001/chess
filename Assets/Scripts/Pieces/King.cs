@@ -9,8 +9,8 @@ using System;
 /// </summary>
 public class King: Piece {
 
-    public override void MoveTo(Vector2 pos) {
-        PlaceAt(pos);
+    public override bool ValidMove(Vector2 pos) {
+        return true;
 
     }
 }

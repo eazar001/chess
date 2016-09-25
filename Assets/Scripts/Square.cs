@@ -26,14 +26,16 @@ public class Square: MonoBehaviour {
                 srcSide = srcPiece.GetAffiliation();
 
                 if(myPiece == null) {
-                    srcPiece.MoveTo(transform.position);
+                    if(srcPiece.ValidMove(transform.position)) {
+                        srcPiece.PlaceAt(transform.position);
+                    }
                 } else {
                     mySide = myPiece.GetAffiliation();
 
-                    if(mySide != srcSide) {
+                    if(mySide != srcSide && srcPiece.ValidMove(transform.position)) {
                         myPiece.Remove();
                         myPiece = null;
-                        srcPiece.MoveTo(transform.position);
+                        srcPiece.PlaceAt(transform.position);
                         srcPiece = null;
                     }
                 }

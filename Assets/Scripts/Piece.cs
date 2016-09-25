@@ -11,8 +11,11 @@ using System;
 /// </summary>
 public abstract class Piece: MonoBehaviour {
 
-    public float xMove { get; set; }
-    public float yMove { get; set; }
+    public float xMove { get; private set; }
+    public float yMove { get; private set; }
+
+    public Vector2 x1 { get; private set; }
+    public Vector2 y1 { get; private set; }
 
     protected Vector2 currPos;
 
@@ -29,14 +32,20 @@ public abstract class Piece: MonoBehaviour {
     }
 
     void Start() {
-        currPos = transform.position;
+        xMove = BoardManager.xMove;
+        yMove = BoardManager.yMove;
+
+        x1 = new Vector2(xMove, 0);
+        y1 = new Vector2(0, yMove);
     }
 
-    public abstract void MoveTo(Vector2 pos);
+    public abstract bool ValidMove(Vector2 pos);
 
-    protected void PlaceAt(Vector2 pos) {
-        BoardManager.srcPiece.transform.position = pos;
-        BoardManager.srcPiece.transform.position += Vector3.forward;
+    public void PlaceAt(Vector2 pos) {
+        Vector3 newPos = pos;
+        newPos += Vector3.forward;
+
+        BoardManager.srcPiece.transform.position = newPos;
         BoardManager.srcSquare.myPiece = null;
 
         BoardManager.srcSquare.anim.SetTrigger("Click");
