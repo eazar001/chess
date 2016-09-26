@@ -14,8 +14,13 @@ public abstract class Piece: MonoBehaviour {
     public float xMove { get; private set; }
     public float yMove { get; private set; }
 
+    // internal move variables
     public Vector2 x1 { get; private set; }
+    public Vector2 x2 { get; private set; }
     public Vector2 y1 { get; private set; }
+    public Vector2 y2 { get; private set; }
+
+    // special move variables for the knight
     public Vector2 k1 { get; private set; }
     public Vector2 k2 { get; private set; }
     public Vector2 k3 { get; private set; }
