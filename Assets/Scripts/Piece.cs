@@ -3,11 +3,10 @@ using System.Collections;
 using System;
 
 /// <summary>
-/// Base class for all Piece types. Each piece subclass should define its own function `MakeMove`,
-/// which should express the direction rather than the precise move itself. The precise move can be
-/// expressed as a magnitude applied to direction. Exceptions here would be the pawn and the knight,
-/// since both these pieces have exceptional move patterns as well as (in the case of the pawn)
-/// contingencies that vary its move patterns.
+/// Base class for all Piece types. Each piece subclass should define its own implementation of
+/// the `ValidMove` method. The Square class will be responsible for validating capture moves,
+/// animations, and rudimentary boundary checking. `ValidMove` should validate the core move pattern
+/// for its respective piece.
 /// </summary>
 public abstract class Piece: MonoBehaviour {
 
@@ -29,8 +28,6 @@ public abstract class Piece: MonoBehaviour {
     public Vector2 k6 { get; private set; }
     public Vector2 k7 { get; private set; }
     public Vector2 k8 { get; private set; }
-
-    protected Vector2 currPos;
 
     public Affiliation affiliation;
 

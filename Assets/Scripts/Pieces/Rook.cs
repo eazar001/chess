@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 /// <summary>
-/// The rook can move straight in any direction, but the diagonal ones.
+/// The rook piece.
 /// </summary>
 public class Rook: Piece {
 

@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 /// <summary>
-/// The bishop can move in any diagonal.
+/// The bishop piece.
 /// </summary>
 public class Bishop: Piece {
 

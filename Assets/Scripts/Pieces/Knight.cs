@@ -3,7 +3,7 @@ using System.Collections;
 using System;
 
 /// <summary>
-/// The knight has 8 L shaped move patterns.
+/// The knight piece.
 /// </summary>
 public class Knight: Piece {
 
