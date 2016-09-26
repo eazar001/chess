@@ -16,6 +16,14 @@ public abstract class Piece: MonoBehaviour {
 
     public Vector2 x1 { get; private set; }
     public Vector2 y1 { get; private set; }
+    public Vector2 k1 { get; private set; }
+    public Vector2 k2 { get; private set; }
+    public Vector2 k3 { get; private set; }
+    public Vector2 k4 { get; private set; }
+    public Vector2 k5 { get; private set; }
+    public Vector2 k6 { get; private set; }
+    public Vector2 k7 { get; private set; }
+    public Vector2 k8 { get; private set; }
 
     protected Vector2 currPos;
 
@@ -37,6 +45,15 @@ public abstract class Piece: MonoBehaviour {
 
         x1 = new Vector2(xMove, 0);
         y1 = new Vector2(0, yMove);
+
+        k1 = new Vector2(xMove, 2.0f*yMove);
+        k2 = new Vector2(-xMove, 2.0f*yMove);
+        k3 = new Vector2(xMove, -2.0f*yMove);
+        k4 = new Vector2(-xMove, -2.0f*yMove);
+        k5 = new Vector2(2.0f*xMove, yMove);
+        k6 = new Vector2(-2.0f*xMove, yMove);
+        k7 = new Vector2(2.0f*xMove, -yMove);
+        k8 = new Vector2(-2.0f*xMove, -yMove);
     }
 
     public abstract bool ValidMove(Vector2 pos);
