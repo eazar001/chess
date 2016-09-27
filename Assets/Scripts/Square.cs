@@ -28,6 +28,7 @@ public class Square: MonoBehaviour {
                 if(myPiece == null) {
                     if(srcPiece.ValidMove(transform.position)) {
                         srcPiece.PlaceAt(transform.position);
+                        CompleteMove();
                     }
                 } else {
                     mySide = myPiece.GetAffiliation();
@@ -37,6 +38,7 @@ public class Square: MonoBehaviour {
                         myPiece = null;
                         srcPiece.PlaceAt(transform.position);
                         srcPiece = null;
+                        CompleteMove();
                     }
                 }
             }
@@ -44,11 +46,15 @@ public class Square: MonoBehaviour {
                 
         } else {
             if(myPiece != null) {
-                selected = true;
-                BoardManager.squareSelected = true;
-                BoardManager.srcPiece = myPiece;
-                BoardManager.srcSquare = gameObject.GetComponent<Square>();
-                anim.SetTrigger("Click");
+                Piece.Player mySide = myPiece.GetAffiliation();
+
+                if(mySide == GameManager.turn) {
+                    selected = true;
+                    BoardManager.squareSelected = true;
+                    BoardManager.srcPiece = myPiece;
+                    BoardManager.srcSquare = gameObject.GetComponent<Square>();
+                    anim.SetTrigger("Click");
+                }
             }
         }
     }
@@ -56,5 +62,30 @@ public class Square: MonoBehaviour {
     void OnTriggerEnter2D(Collider2D otherCollider) {
         GameObject obj = otherCollider.gameObject;
         myPiece = obj.GetComponent<Piece>();
+    }
+
+    // routines to run on successful execution of a move
+    void CompleteMove() {
+        GameObject[] allObjs = FindObjectsOfType<GameObject>();
+        string pawnName;
+
+        if(GameManager.turn == Piece.Player.White) {
+            pawnName = "BlackPawn(Clone)";
+        } else {
+            pawnName = "WhitePawn(Clone)";
+        }
+
+        foreach(GameObject obj in allObjs) {
+            if(obj.name == pawnName) {
+                obj.GetComponent<Pawn>().enpassantAvailable = false;
+            }
+
+        }
+
+        if(GameManager.turn == Piece.Player.White) {
+            GameManager.turn = Piece.Player.Black;
+        } else {
+            GameManager.turn = Piece.Player.White;
+        }
     }
 }

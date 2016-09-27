@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameManager: MonoBehaviour {
 
-    public static Piece.Player turn { get; private set; }
+    public static Piece.Player turn { get; set; }
     public PieceMovement movementProperties;
     BoardManager b;
 
