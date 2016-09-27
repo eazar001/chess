@@ -64,6 +64,10 @@ public class Square: MonoBehaviour {
         myPiece = obj.GetComponent<Piece>();
     }
 
+    void OnTriggerExit2D(Collider2D otherCollider) {
+        myPiece = null;
+    }
+
     // routines to run on successful execution of a move
     void CompleteMove() {
         GameObject[] allObjs = FindObjectsOfType<GameObject>();

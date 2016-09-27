@@ -6,6 +6,8 @@ using System;
 /// The rook piece.
 /// </summary>
 public class Rook: Piece {
+    
+    public bool firstMove = true;
 
     public override bool ValidMove(Vector2 pos) {
         Vector2 upDir = Vector2.up;
@@ -32,9 +34,11 @@ public class Rook: Piece {
                 RaycastHit2D up = Physics2D.Raycast(myPos, upDir, dist, 1);
 
                 if(up.collider == null) {
+                    firstMove = false;
                     return true;
                 } else {
                     if((Vector2)up.collider.transform.position == pos) {
+                        firstMove = false;
                         return true;
                     }
                 }
@@ -42,9 +46,11 @@ public class Rook: Piece {
                 RaycastHit2D down = Physics2D.Raycast(myPos, downDir, dist, 1);
 
                 if(down.collider == null) {
+                    firstMove = false;
                     return true;
                 } else {
                     if((Vector2)down.collider.transform.position == pos) {
+                        firstMove = false;
                         return true;
                     }
                 }
@@ -54,9 +60,11 @@ public class Rook: Piece {
                 RaycastHit2D right = Physics2D.Raycast(myPos, rightDir, dist, 1);
 
                 if(right.collider == null) {
+                    firstMove = false;
                     return true;
                 } else {
                     if((Vector2)right.collider.transform.position == pos) {
+                        firstMove = false;
                         return true;
                     }
                 }
@@ -64,9 +72,11 @@ public class Rook: Piece {
                 RaycastHit2D left = Physics2D.Raycast(myPos, leftDir, dist, 1);
 
                 if(left.collider == null) {
+                    firstMove = false;
                     return true;
                 } else {
                     if((Vector2)left.collider.transform.position == pos) {
+                        firstMove = false;
                         return true;
                     }
                 }

@@ -60,6 +60,9 @@ public abstract class Piece: MonoBehaviour {
 
     public abstract bool ValidMove(Vector2 pos);
 
+    // This is the main method for executing moves requested directly by the user, i.e. non
+    // special moves (like castling) that are requested by selecting source and destination and
+    // awaiting validation. Moves should generally always be initiated with this method.
     public void PlaceAt(Vector2 pos) {
         Vector3 newPos = pos;
         newPos += Vector3.forward;
@@ -71,6 +74,15 @@ public abstract class Piece: MonoBehaviour {
         BoardManager.srcSquare.selected = false;
         BoardManager.srcSquare = null;
         BoardManager.squareSelected = false;
+    }
+
+    // This method is for directly moving a piece. Useful for situations like castling.
+    public void MoveTo(Vector2 pos) {
+        Square[] allSquares = FindObjectsOfType<Square>();
+
+        Vector3 newPos = pos;
+        newPos += Vector3.forward;
+        transform.position = newPos;
     }
 
     public void PickUp() {
