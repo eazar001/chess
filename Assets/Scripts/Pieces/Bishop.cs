@@ -24,47 +24,27 @@ public class Bishop: Piece {
 
         if(yDist < 0.0f) {
             if(xDist < 0.0f) {
-                RaycastHit2D ray = Physics2D.Raycast(myPos, d1, dist, 1);
-
-                if(ray.collider == null) {
-                    return true;
-                } else {
-                    if((Vector2)ray.collider.transform.position == pos) {
-                        return true;
-                    }
-                }
+                if(Legal(Physics2D.Raycast(myPos, d1, dist, 1), pos)) { return true; }
             } else if(xDist > 0.0f) {
-                RaycastHit2D ray = Physics2D.Raycast(myPos, d2, dist, 1);
-
-                if(ray.collider == null) {
-                    return true;
-                } else {
-                    if((Vector2)ray.collider.transform.position == pos) {
-                        return true;
-                    }
-                }
+                if(Legal(Physics2D.Raycast(myPos, d2, dist, 1), pos)) { return true; }
             }
         } else if(yDist > 0.0f) {
             if(-xDist < 0.0f) {
-                RaycastHit2D ray = Physics2D.Raycast(myPos, -d1, dist, 1);
-
-                if(ray.collider == null) {
-                    return true;
-                } else {
-                    if((Vector2)ray.collider.transform.position == pos) {
-                        return true;
-                    }
-                }
+                if(Legal(Physics2D.Raycast(myPos, -d1, dist, 1), pos)) { return true; }
             } else if(-xDist > 0.0f) {
-                RaycastHit2D ray = Physics2D.Raycast(myPos, -d2, dist, 1);
+                if(Legal(Physics2D.Raycast(myPos, -d2, dist, 1), pos)) { return true; }
+            }
+        }
 
-                if(ray.collider == null) {
-                    return true;
-                } else {
-                    if((Vector2)ray.collider.transform.position == pos) {
-                        return true;
-                    }
-                }
+        return false;
+    }
+
+    bool Legal(RaycastHit2D ray, Vector2 pos) {
+        if(ray.collider == null) {
+            return true;
+        } else {
+            if((Vector2)ray.collider.transform.position == pos) {
+                return true;
             }
         }
 

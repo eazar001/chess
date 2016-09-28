@@ -29,93 +29,57 @@ public class Queen: Piece {
 
         if(myX == otherX) {
             if(yDist < 0.0f) {
-                RaycastHit2D up = Physics2D.Raycast(myPos, upDir, dist, 1);
-
-                if(up.collider == null) {
+                if(LegalMove(Physics2D.Raycast(myPos, upDir, dist, 1), pos)) {
                     return true;
-                } else {
-                    if((Vector2)up.collider.transform.position == pos) {
-                        return true;
-                    }
                 }
             } else if(yDist > 0.0f) {
-                RaycastHit2D down = Physics2D.Raycast(myPos, downDir, dist, 1);
-
-                if(down.collider == null) {
+                if(LegalMove(Physics2D.Raycast(myPos, downDir, dist, 1), pos)) {
                     return true;
-                } else {
-                    if((Vector2)down.collider.transform.position == pos) {
-                        return true;
-                    }
                 }
             }
         } else if(myY == otherY) {
             if(xDist < 0.0f) {
-                RaycastHit2D right = Physics2D.Raycast(myPos, rightDir, dist, 1);
-
-                if(right.collider == null) {
+                if(LegalMove(Physics2D.Raycast(myPos, rightDir, dist, 1), pos)) {
                     return true;
-                } else {
-                    if((Vector2)right.collider.transform.position == pos) {
-                        return true;
-                    }
                 }
             } else if(xDist > 0.0f) {
-                RaycastHit2D left = Physics2D.Raycast(myPos, leftDir, dist, 1);
-
-                if(left.collider == null) {
+                if(LegalMove(Physics2D.Raycast(myPos, leftDir, dist, 1), pos)) {
                     return true;
-                } else {
-                    if((Vector2)left.collider.transform.position == pos) {
-                        return true;
-                    }
                 }
             }
         } else {
             if(yDist < 0.0f) {
                 if(xDist < 0.0f) {
-                    RaycastHit2D ray = Physics2D.Raycast(myPos, d1, dist, 1);
-
-                    if(ray.collider == null) {
+                    if(LegalMove(Physics2D.Raycast(myPos, d1, dist, 1), pos)) {
                         return true;
-                    } else {
-                        if((Vector2)ray.collider.transform.position == pos) {
-                            return true;
-                        }
                     }
                 } else if(xDist > 0.0f) {
-                    RaycastHit2D ray = Physics2D.Raycast(myPos, d2, dist, 1);
-
-                    if(ray.collider == null) {
+                    if(LegalMove(Physics2D.Raycast(myPos, d2, dist, 1), pos)) {
                         return true;
-                    } else {
-                        if((Vector2)ray.collider.transform.position == pos) {
-                            return true;
-                        }
                     }
                 }
             } else if(yDist > 0.0f) {
                 if(-xDist < 0.0f) {
-                    RaycastHit2D ray = Physics2D.Raycast(myPos, -d1, dist, 1);
-
-                    if(ray.collider == null) {
+                    if(LegalMove(Physics2D.Raycast(myPos, -d1, dist, 1), pos)) {
                         return true;
-                    } else {
-                        if((Vector2)ray.collider.transform.position == pos) {
-                            return true;
-                        }
                     }
                 } else if(-xDist > 0.0f) {
-                    RaycastHit2D ray = Physics2D.Raycast(myPos, -d2, dist, 1);
-
-                    if(ray.collider == null) {
+                    if(LegalMove(Physics2D.Raycast(myPos, -d2, dist, 1), pos)) {
                         return true;
-                    } else {
-                        if((Vector2)ray.collider.transform.position == pos) {
-                            return true;
-                        }
                     }
                 }
+            }
+        }
+
+        return false;
+    }
+
+    bool LegalMove(RaycastHit2D ray, Vector2 pos) {
+        if(ray.collider == null) {
+            return true;
+        } else {
+            if((Vector2)ray.collider.transform.position == pos) {
+                return true;
             }
         }
 

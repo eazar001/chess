@@ -13,7 +13,6 @@ public class Square: MonoBehaviour {
     }
 
     void OnMouseDown() {
-
         if(BoardManager.squareSelected) {
             if(selected) {
                 anim.SetTrigger("Click");

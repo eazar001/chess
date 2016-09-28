@@ -37,7 +37,7 @@ public abstract class Piece: MonoBehaviour {
     }
 
     [System.Serializable]
-    public class Affiliation {
+    public struct Affiliation {
         public Player side;
     }
 

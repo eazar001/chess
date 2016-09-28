@@ -18,7 +18,6 @@ public class BoardManager {
     }
 
     public void CreateBoard() {
-
         allObjs = Resources.FindObjectsOfTypeAll<GameObject>();
         
         foreach(GameObject obj in allObjs) {
@@ -107,13 +106,11 @@ public class BoardManager {
             x = -3.5f * xMove;
             y += yMove;
             invert = !invert;
-
         }
     }
     
 
     void MakeBoard(string o1, string o2, bool invert, ref float x, ref float y) {
-
         foreach(GameObject obj in allObjs) {
             if(obj.name == o1) {
                 InstantiateObject(obj, x, y);

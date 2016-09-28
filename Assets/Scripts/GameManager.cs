@@ -4,8 +4,19 @@ using System.Collections;
 public class GameManager: MonoBehaviour {
 
     public static Piece.Player turn { get; set; }
-    public PieceMovement movementProperties;
+    public PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
     BoardManager b;
+
+    [System.Serializable]
+    public struct PieceMovement {
+        public float xMove;
+        public float yMove;
+
+        public PieceMovement(float x, float y) {
+            xMove = x;
+            yMove = y;
+        }
+    }
 
     void Start() {
         turn = Piece.Player.White;
