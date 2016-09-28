@@ -24,14 +24,10 @@ public class King: Piece {
         if(firstMove) {
             if(pos == myPos + 2.0f*d3) {
                 // King side
-                if(LegalCastle(Vector2.right, myPos, pos)) {
-                    return true;
-                }
+                return LegalCastle(Vector2.right, myPos, pos);
             } else if(pos == myPos - 2.0f*d3) {
                 // Queen side
-                if(LegalCastle(Vector2.left, myPos, pos)) {
-                    return true;
-                }
+                return LegalCastle(Vector2.left, myPos, pos);
             }
         }
 

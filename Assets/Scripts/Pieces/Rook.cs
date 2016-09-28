@@ -29,23 +29,15 @@ public class Rook: Piece {
 
         if(myX == otherX) {
             if(yDist < 0.0f) {
-                if(LegalMove(Physics2D.Raycast(myPos, upDir, dist, 1), pos)) {
-                    return true;
-                }
+                return LegalMove(Physics2D.Raycast(myPos, upDir, dist, 1), pos);
             } else if(yDist > 0.0f) {
-                if(LegalMove(Physics2D.Raycast(myPos, downDir, dist, 1), pos)) {
-                    return true;
-                }
+                return LegalMove(Physics2D.Raycast(myPos, downDir, dist, 1), pos);
             }
         } else if(myY == otherY) {
             if(xDist < 0.0f) {
-                if(LegalMove(Physics2D.Raycast(myPos, rightDir, dist, 1), pos)) {
-                    return true;
-                }
+                return LegalMove(Physics2D.Raycast(myPos, rightDir, dist, 1), pos);
             } else if(xDist > 0.0f) {
-                if(LegalMove(Physics2D.Raycast(myPos, leftDir, dist, 1), pos)) {
-                    return true;
-                }
+                return LegalMove(Physics2D.Raycast(myPos, leftDir, dist, 1), pos);
             }
         }
 

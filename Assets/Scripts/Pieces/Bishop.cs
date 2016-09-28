@@ -24,15 +24,15 @@ public class Bishop: Piece {
 
         if(yDist < 0.0f) {
             if(xDist < 0.0f) {
-                if(Legal(Physics2D.Raycast(myPos, d1, dist, 1), pos)) { return true; }
+                return Legal(Physics2D.Raycast(myPos, d1, dist, 1), pos);
             } else if(xDist > 0.0f) {
-                if(Legal(Physics2D.Raycast(myPos, d2, dist, 1), pos)) { return true; }
+                return Legal(Physics2D.Raycast(myPos, d2, dist, 1), pos);
             }
         } else if(yDist > 0.0f) {
             if(-xDist < 0.0f) {
-                if(Legal(Physics2D.Raycast(myPos, -d1, dist, 1), pos)) { return true; }
+                return Legal(Physics2D.Raycast(myPos, -d1, dist, 1), pos);
             } else if(-xDist > 0.0f) {
-                if(Legal(Physics2D.Raycast(myPos, -d2, dist, 1), pos)) { return true; }
+                return Legal(Physics2D.Raycast(myPos, -d2, dist, 1), pos);
             }
         }
 
