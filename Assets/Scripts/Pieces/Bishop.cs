@@ -8,11 +8,6 @@ using System;
 public class Bishop: Piece {
 
     public override bool ValidMove(Vector2 pos) {
-        Vector2 upDir = Vector2.up;
-        Vector2 downDir = Vector2.down;
-        Vector2 leftDir = Vector2.left;
-        Vector2 rightDir = Vector2.right;
-
         Vector2 d1 = new Vector2(xMove, yMove);
         Vector2 d2 = new Vector2(-xMove, yMove);
         Vector2 myPos = transform.position;

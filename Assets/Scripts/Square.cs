@@ -86,10 +86,6 @@ public class Square: MonoBehaviour {
 
         }
 
-        if(GameManager.turn == Piece.Player.White) {
-            GameManager.turn = Piece.Player.Black;
-        } else {
-            GameManager.turn = Piece.Player.White;
-        }
+        GameManager.NextTurn();
     }
 }

@@ -22,7 +22,7 @@ public class GameManager: MonoBehaviour {
         }
     }
 
-    public void NextTurn() {
+    public static void NextTurn() {
         if(turn == Piece.Player.Black) {
             turn = Piece.Player.White;
         } else {

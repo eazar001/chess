@@ -78,8 +78,6 @@ public abstract class Piece: MonoBehaviour {
 
     // This method is for directly moving a piece. Useful for situations like castling.
     public void MoveTo(Vector2 pos) {
-        Square[] allSquares = FindObjectsOfType<Square>();
-
         Vector3 newPos = pos;
         newPos += Vector3.forward;
         transform.position = newPos;
