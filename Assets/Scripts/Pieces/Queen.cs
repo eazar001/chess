@@ -13,8 +13,6 @@ public class Queen: Piece {
         Vector2 leftDir = Vector2.left;
         Vector2 rightDir = Vector2.right;
 
-        Vector2 d1 = new Vector2(xMove, yMove);
-        Vector2 d2 = new Vector2(-xMove, yMove);
         Vector2 myPos = transform.position;
 
         float myX = myPos.x;
@@ -39,7 +37,7 @@ public class Queen: Piece {
             } else if(xDist > 0.0f) {
                 return LegalMove(Physics2D.Raycast(myPos, leftDir, dist, 1), pos);
             }
-        } else {
+        } else if(Math.Abs(Mathf.Abs(xDist) - Mathf.Abs(yDist)) < xMove/2.0f) {
             if(yDist < 0.0f) {
                 if(xDist < 0.0f) {
                     return LegalMove(Physics2D.Raycast(myPos, d1, dist, 1), pos);

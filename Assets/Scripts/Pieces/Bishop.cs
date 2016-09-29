@@ -8,8 +8,6 @@ using System;
 public class Bishop: Piece {
 
     public override bool ValidMove(Vector2 pos) {
-        Vector2 d1 = new Vector2(xMove, yMove);
-        Vector2 d2 = new Vector2(-xMove, yMove);
         Vector2 myPos = transform.position;
 
         float myX = myPos.x;
@@ -21,25 +19,28 @@ public class Bishop: Piece {
         float xDist = myX - otherX;
         float yDist = myY - otherY;
 
+        if(Mathf.Abs(Mathf.Abs(xDist) - Mathf.Abs(yDist)) >= xMove/2.0f) {
+            return false;
+        }
 
         if(yDist < 0.0f) {
             if(xDist < 0.0f) {
-                return Legal(Physics2D.Raycast(myPos, d1, dist, 1), pos);
+                return LegalMove(Physics2D.Raycast(myPos, d1, dist, 1), pos);
             } else if(xDist > 0.0f) {
-                return Legal(Physics2D.Raycast(myPos, d2, dist, 1), pos);
+                return LegalMove(Physics2D.Raycast(myPos, d2, dist, 1), pos);
             }
         } else if(yDist > 0.0f) {
             if(-xDist < 0.0f) {
-                return Legal(Physics2D.Raycast(myPos, -d1, dist, 1), pos);
+                return LegalMove(Physics2D.Raycast(myPos, -d1, dist, 1), pos);
             } else if(-xDist > 0.0f) {
-                return Legal(Physics2D.Raycast(myPos, -d2, dist, 1), pos);
+                return LegalMove(Physics2D.Raycast(myPos, -d2, dist, 1), pos);
             }
         }
 
         return false;
     }
 
-    bool Legal(RaycastHit2D ray, Vector2 pos) {
+    bool LegalMove(RaycastHit2D ray, Vector2 pos) {
         if(ray.collider == null) {
             return true;
         } else {

@@ -8,24 +8,18 @@ using System;
 public class King: Piece {
 
     bool firstMove = true;
-    Vector2 d1, d2, d3;
-
     Piece.Player mySide;
 
     public override bool ValidMove(Vector2 pos) {
         mySide = GetAffiliation();
-        d1 = new Vector2(xMove, yMove);
-        d2 = new Vector2(-xMove, yMove);
-        d3 = new Vector2(xMove, 0);
-
         Vector2 myPos = transform.position;
 
         // Castling moves
         if(firstMove) {
-            if(pos == myPos + 2.0f*d3) {
+            if(pos == myPos + 2.0f*x1) {
                 // King side
                 return LegalCastle(Vector2.right, myPos, pos);
-            } else if(pos == myPos - 2.0f*d3) {
+            } else if(pos == myPos - 2.0f*x1) {
                 // Queen side
                 return LegalCastle(Vector2.left, myPos, pos);
             }
@@ -33,7 +27,7 @@ public class King: Piece {
 
         // Normal moves
         if((pos == myPos + y1) || pos == myPos + d2 || pos == myPos - y1 || pos == myPos - d1
-            || pos == myPos - d2 || pos == myPos + d1 || pos == myPos + d3 || pos == myPos - d3) {
+            || pos == myPos - d2 || pos == myPos + d1 || pos == myPos + x1 || pos == myPos - x1) {
 
             firstMove = false;
             return true;
@@ -56,11 +50,11 @@ public class King: Piece {
             Vector2 otherPos = otherObj.transform.position;
 
             if(direction == Vector2.right) {
-                if(!otherObj.CompareTag("Rook") || otherPos != pos + d3) {
+                if(!otherObj.CompareTag("Rook") || otherPos != pos + x1) {
                     return false;
                 }
             } else {
-                if(!otherObj.CompareTag("Rook") || otherPos != pos - 2.0f*d3) {
+                if(!otherObj.CompareTag("Rook") || otherPos != pos - 2.0f*x1) {
                     return false;
                 }
             }
@@ -70,17 +64,17 @@ public class King: Piece {
 
             if(direction == Vector2.right) {
                 if(mySide == otherSide && rook.firstMove) {
-                    Vector2 rookPos = otherPos - d3;
-                    rookPos -= d3;
+                    Vector2 rookPos = otherPos - x1;
+                    rookPos -= x1;
                     rook.firstMove = false;
                     rook.MoveTo(rookPos);
                     return true;
                 }
             } else {
                 if(mySide == otherSide && rook.firstMove) {
-                    Vector2 rookPos = otherPos + d3;
-                    rookPos += d3;
-                    rookPos += d3;
+                    Vector2 rookPos = otherPos + x1;
+                    rookPos += x1;
+                    rookPos += x1;
                     rook.firstMove = false;
                     rook.MoveTo(rookPos);
                     return true;
