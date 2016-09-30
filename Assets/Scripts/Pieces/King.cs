@@ -8,7 +8,7 @@ using System;
 public class King: Piece {
 
     bool firstMove = true;
-    Piece.Player mySide;
+    GameManager.PlayerSide mySide;
 
     public override bool ValidMove(Vector2 pos) {
         mySide = GetAffiliation();
@@ -59,7 +59,7 @@ public class King: Piece {
                 }
             }
                     
-            Piece.Player otherSide = otherObj.GetComponent<Piece>().GetAffiliation();
+            GameManager.PlayerSide otherSide = otherObj.GetComponent<Piece>().GetAffiliation();
             Rook rook = otherObj.GetComponent<Rook>();
 
             if(direction == Vector2.right) {

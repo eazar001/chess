@@ -3,7 +3,9 @@ using System.Collections;
 
 public class GameManager: MonoBehaviour {
 
-    public static Piece.Player turn { get; set; }
+    public static PlayerSide turn { get; set; }
+    public static Player white { get; set; }
+    public static Player black { get; set; }
     public PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
     BoardManager b;
 
@@ -18,8 +20,32 @@ public class GameManager: MonoBehaviour {
         }
     }
 
+    public struct Player {
+        public PlayerSide side;
+        public PlayerState state;
+
+        public Player(PlayerSide side, PlayerState state) {
+            this.side = side;
+            this.state = state;
+        }
+    }
+
+    public enum PlayerSide {
+        White,
+        Black,
+    }
+
+    public enum PlayerState {
+        Normal,
+        Check,
+        Checkmate,
+    }
+
     void Start() {
-        turn = Piece.Player.White;
+        white = new Player(PlayerSide.White, PlayerState.Normal);
+        black = new Player(PlayerSide.Black, PlayerState.Normal);
+        turn = white.side;
+
         float xMove = movementProperties.xMove;
         float yMove = movementProperties.yMove;
 
@@ -34,10 +60,10 @@ public class GameManager: MonoBehaviour {
     }
 
     public static void NextTurn() {
-        if(turn == Piece.Player.Black) {
-            turn = Piece.Player.White;
+        if(turn == PlayerSide.Black) {
+            turn = PlayerSide.White;
         } else {
-            turn = Piece.Player.Black;
+            turn = PlayerSide.Black;
         }
     }
 }
