@@ -40,4 +40,17 @@ public class GameManager: MonoBehaviour {
             turn = Piece.Player.Black;
         }
     }
+
+    // This method is used for switching sides (and visual perspective for main player)
+    void FlipBoard() {
+        GameObject camera = GameObject.FindWithTag("MainCamera");
+
+        camera.transform.Rotate(new Vector3(0, 0, 180));
+
+        foreach(GameObject obj in FindObjectsOfType<GameObject>()) {
+            if(!obj.CompareTag("MainCamera") && obj.name != "GameManager") {
+                obj.transform.Rotate(new Vector3(0, 0, 180));
+            }
+        }
+    }
 }
