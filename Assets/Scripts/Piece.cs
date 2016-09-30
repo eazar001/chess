@@ -31,14 +31,9 @@ public abstract class Piece: MonoBehaviour {
 
     public Affiliation affiliation;
 
-    public enum Player {
-        White,
-        Black,
-    }
-
     [System.Serializable]
     public struct Affiliation {
-        public Player side;
+        public GameManager.PlayerSide side;
     }
 
     void Start() {
@@ -94,7 +89,7 @@ public abstract class Piece: MonoBehaviour {
         Destroy(gameObject);
     }
 
-    public Player GetAffiliation() {
+    public GameManager.PlayerSide GetAffiliation() {
         return affiliation.side;
     }
 }

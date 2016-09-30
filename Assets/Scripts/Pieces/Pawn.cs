@@ -19,7 +19,7 @@ public class Pawn: Piece {
         diag2 = d2;
 
 
-        if(GetAffiliation() == Player.Black) {
+        if(GetAffiliation() == GameManager.PlayerSide.Black) {
             dir = -dir;
             diag1 = -diag1;
             diag2 = -diag2;
@@ -71,16 +71,16 @@ public class Pawn: Piece {
             return true;
         } else {
             Vector2 eDir;
-            Piece.Player mySide = GetAffiliation();
+            GameManager.PlayerSide mySide = GetAffiliation();
 
             if(pos == myPos + diag1) {
-                if(mySide == Player.Black) {
+                if(mySide == GameManager.PlayerSide.Black) {
                     eDir = Vector2.left;
                 } else {
                     eDir = Vector2.right;
                 }
             } else if(pos == myPos + diag2) {
-                if(mySide == Player.Black) {
+                if(mySide == GameManager.PlayerSide.Black) {
                     eDir = Vector2.right;
                 } else {
                     eDir = Vector2.left;
@@ -94,7 +94,7 @@ public class Pawn: Piece {
             if(hit.collider != null) {
                 GameObject other = hit.collider.gameObject;
                 Piece otherPiece = other.GetComponent<Piece>();
-                Piece.Player otherSide = otherPiece.GetAffiliation();
+                GameManager.PlayerSide otherSide = otherPiece.GetAffiliation();
 
                 if(otherPiece.CompareTag("Pawn") && mySide != otherSide) {
                     if(otherPiece.GetComponent<Pawn>().EnpassantAvailable()) {

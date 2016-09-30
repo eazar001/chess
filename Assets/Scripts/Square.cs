@@ -7,19 +7,47 @@ public class Square: MonoBehaviour {
     public bool selected { get; set; }
     public Piece myPiece { get; set; }
 
+    GameManager.PlayerSide currentPlayer;
+    GameManager.PlayerState currentPlayerState;
+
     void Start() {
         anim = GetComponent<Animator>();
         selected = false;
     }
 
     void OnMouseDown() {
+        currentPlayer = GameManager.turn;
+
+        switch(currentPlayer) {
+            case GameManager.PlayerSide.White:
+                currentPlayerState = GameManager.white.state;
+                break;
+            default:
+                currentPlayerState = GameManager.black.state;
+                break;
+        }
+
+        switch(currentPlayerState) {
+            case GameManager.PlayerState.Normal:
+                NormalMouseDown();
+                break;
+            case GameManager.PlayerState.Check:
+                CheckMouseDown();
+                break;
+            default:
+                GameFinished();
+                break;
+        }
+    }
+
+    void NormalMouseDown() {
         if(BoardManager.squareSelected) {
             if(selected) {
                 anim.SetTrigger("Click");
                 selected = false;
                 BoardManager.squareSelected = false;
             } else {
-                Piece.Player mySide, srcSide;
+                GameManager.PlayerSide mySide, srcSide;
                 Piece srcPiece = BoardManager.srcPiece;
 
                 srcSide = srcPiece.GetAffiliation();
@@ -41,11 +69,9 @@ public class Square: MonoBehaviour {
                     }
                 }
             }
-
-                
         } else {
             if(myPiece != null) {
-                Piece.Player mySide = myPiece.GetAffiliation();
+                GameManager.PlayerSide mySide = myPiece.GetAffiliation();
 
                 if(mySide == GameManager.turn) {
                     selected = true;
@@ -56,6 +82,20 @@ public class Square: MonoBehaviour {
                 }
             }
         }
+    }
+
+    void CheckMouseDown() {
+
+
+
+
+    }
+
+    void GameFinished() {
+
+
+
+
     }
 
     void OnTriggerEnter2D(Collider2D otherCollider) {
@@ -72,7 +112,7 @@ public class Square: MonoBehaviour {
         GameObject[] allObjs = FindObjectsOfType<GameObject>();
         string pawnName;
 
-        if(GameManager.turn == Piece.Player.White) {
+        if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
         } else {
             pawnName = "WhitePawn(Clone)";
