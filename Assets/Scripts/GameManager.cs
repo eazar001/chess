@@ -4,8 +4,8 @@ using System.Collections;
 public class GameManager: MonoBehaviour {
 
     public static PlayerSide turn { get; set; }
-    public static Player white { get; set; }
-    public static Player black { get; set; }
+    public static Player white;
+    public static Player black;
     public PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
     BoardManager b;
 
@@ -64,6 +64,33 @@ public class GameManager: MonoBehaviour {
             turn = PlayerSide.White;
         } else {
             turn = PlayerSide.Black;
+        }
+    }
+
+    public static void EvaluateState() {
+        King[] kings = FindObjectsOfType<King>();
+
+        switch(turn) {
+            case PlayerSide.Black:
+                foreach(King king in kings) {
+                    if(king.CompareTag("BlackKing(Clone)")) {
+                        if(king.InCheck()) {
+                            black.state = PlayerState.Check;
+                            break;
+                        }
+                    }
+                }
+                break;
+            default:
+                foreach(King king in kings) {
+                    if(king.CompareTag("WhiteKing(Clone)")) {
+                        if(king.InCheck()) {
+                            white.state = PlayerState.Check;
+                            break;
+                        }
+                    }
+                }
+                break;
         }
     }
 
