@@ -10,24 +10,24 @@ using System;
 /// </summary>
 public abstract class Piece: MonoBehaviour {
 
-    public float xMove { get; private set; }
-    public float yMove { get; private set; }
+    protected float xMove { get; private set; }
+    protected float yMove { get; private set; }
 
     // internal move variables
-    public Vector2 x1 { get; private set; }
-    public Vector2 y1 { get; private set; }
-    public Vector2 d1 { get; private set; }
-    public Vector2 d2 { get; private set; }
+    protected Vector2 x1 { get; private set; }
+    protected Vector2 y1 { get; private set; }
+    protected Vector2 d1 { get; private set; }
+    protected Vector2 d2 { get; private set; }
 
     // special move variables for the knight
-    public Vector2 k1 { get; private set; }
-    public Vector2 k2 { get; private set; }
-    public Vector2 k3 { get; private set; }
-    public Vector2 k4 { get; private set; }
-    public Vector2 k5 { get; private set; }
-    public Vector2 k6 { get; private set; }
-    public Vector2 k7 { get; private set; }
-    public Vector2 k8 { get; private set; }
+    protected Vector2 k1 { get; private set; }
+    protected Vector2 k2 { get; private set; }
+    protected Vector2 k3 { get; private set; }
+    protected Vector2 k4 { get; private set; }
+    protected Vector2 k5 { get; private set; }
+    protected Vector2 k6 { get; private set; }
+    protected Vector2 k7 { get; private set; }
+    protected Vector2 k8 { get; private set; }
 
     public Affiliation affiliation;
 
