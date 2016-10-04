@@ -29,9 +29,11 @@ public class Square: MonoBehaviour {
 
         switch(currentPlayerState) {
             case GameManager.PlayerState.Normal:
+                Debug.Log("I'm not in check");
                 NormalMouseDown();
                 break;
             case GameManager.PlayerState.Check:
+                Debug.Log("I'm in check");
                 CheckMouseDown();
                 break;
             default:
@@ -114,15 +116,16 @@ public class Square: MonoBehaviour {
 
         if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
+            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
         } else {
             pawnName = "WhitePawn(Clone)";
+            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
         }
 
         foreach(GameObject obj in allObjs) {
             if(obj.name == pawnName) {
                 obj.GetComponent<Pawn>().enpassantAvailable = false;
             }
-
         }
 
         GameManager.NextTurn();

@@ -90,7 +90,8 @@ public class King: Piece {
         return false;
     }
 
-    public bool InCheck() {
+    public void EvalCheck() {
+        mySide = GetAffiliation();
         Vector2 myPos = transform.position;
 
         RaycastHit2D downCast = Physics2D.Raycast(myPos, downDir, 7*yMove, 1);
@@ -104,43 +105,42 @@ public class King: Piece {
 
         if(RegularEnemyCollision(downCast)) {
             inCheck = true;
-            return inCheck;
         } else if(RegularEnemyCollision(upCast)) {
             inCheck = true;
-            return inCheck;
         } else if(RegularEnemyCollision(leftCast)) {
             inCheck = true;
-            return inCheck;
         } else if(RegularEnemyCollision(rightCast)) {
             inCheck = true;
-            return inCheck;
         } else if(DiagonalEnemyCollision(diagRightCast) || DiagonalEnemyCollision(diagLeftCast)
             || DiagonalEnemyCollision(diagRightDownCast)
             || DiagonalEnemyCollision(diagLeftDownCast)) {
 
             inCheck = true;
-            return inCheck;
         } else {
             inCheck = false;
-            return inCheck;
         }
-
     }
 
-    public bool SetCheck() {
-        inCheck = !inCheck;
+    public bool InCheck() {
         return inCheck;
+    }
+
+    public void SetCheck() {
+        inCheck = !inCheck;
     }
 
     // Check condition passes if colliding with rook or queen enemy collider
     bool RegularEnemyCollision(RaycastHit2D r) {
         Collider2D c = r.collider;
+        if(c == null) { return false; }
+
         GameManager.PlayerSide otherSide = c.gameObject.GetComponent<Piece>().GetAffiliation();
 
-        if(c != null && otherSide != mySide) {
+        if(otherSide != mySide) {
             GameObject obj = c.gameObject;
 
-            if(obj.CompareTag("Rook(Clone)") || obj.CompareTag("Queen(Clone)")) {
+            if(obj.CompareTag("Rook") || obj.CompareTag("Queen")) {
+                Debug.Log(obj.ToString());
                 return true;
             }
         }
@@ -151,13 +151,15 @@ public class King: Piece {
     // Check condition passes if colliding with pawn, bishop, or queen enemy collider
     bool DiagonalEnemyCollision(RaycastHit2D r) {
         Collider2D c = r.collider;
+        if(c == null) { return false; }
+
         GameManager.PlayerSide otherSide = c.gameObject.GetComponent<Piece>().GetAffiliation();
 
-        if(c != null && otherSide != mySide) {
+        if(otherSide != mySide) {
             GameObject obj = c.gameObject;
 
-            if(obj.CompareTag("Queen(Clone)") || obj.CompareTag("Bishop(Clone)")) {
-
+            if(obj.CompareTag("Queen") || obj.CompareTag("Bishop")) {
+                Debug.Log(obj.ToString());
                 return true;
             }
         }
