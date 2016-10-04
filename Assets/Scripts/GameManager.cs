@@ -60,7 +60,6 @@ public class GameManager: MonoBehaviour {
     }
 
     public static void NextTurn() {
-        EvaluateState();
         if(turn == PlayerSide.Black) {
             turn = PlayerSide.White;
         } else {

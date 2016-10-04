@@ -111,15 +111,16 @@ public class Square: MonoBehaviour {
 
     // routines to run on successful execution of a move
     void CompleteMove() {
+        GameManager.EvaluateState();
         GameObject[] allObjs = FindObjectsOfType<GameObject>();
         string pawnName;
 
         if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
-            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
+            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
         } else {
             pawnName = "WhitePawn(Clone)";
-            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
+            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
         }
 
         foreach(GameObject obj in allObjs) {

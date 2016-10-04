@@ -103,20 +103,30 @@ public class King: Piece {
         RaycastHit2D diagRightDownCast = Physics2D.Raycast(myPos, -d1, 7*xMove, 1);
         RaycastHit2D diagLeftDownCast = Physics2D.Raycast(myPos, -d2, 7*xMove, 1);
 
-        if(RegularEnemyCollision(downCast)) {
+        if(RegularEnemyCollision(downCast)
+            || RegularEnemyCollision(upCast)
+            || RegularEnemyCollision(leftCast)
+            || RegularEnemyCollision(rightCast)) {
+
             inCheck = true;
-        } else if(RegularEnemyCollision(upCast)) {
-            inCheck = true;
-        } else if(RegularEnemyCollision(leftCast)) {
-            inCheck = true;
-        } else if(RegularEnemyCollision(rightCast)) {
-            inCheck = true;
-        } else if(DiagonalEnemyCollision(diagRightCast) || DiagonalEnemyCollision(diagLeftCast)
+        } else if(DiagonalEnemyCollision(diagRightCast)
+            || DiagonalEnemyCollision(diagLeftCast)
             || DiagonalEnemyCollision(diagRightDownCast)
             || DiagonalEnemyCollision(diagLeftDownCast)) {
 
             inCheck = true;
         } else {
+            Knight[] knights = FindObjectsOfType<Knight>();
+
+            // because knights are so special
+            foreach(Knight knight in knights) {
+                if(knight.GetAffiliation() != mySide && knight.ValidMove(transform.position)) {
+                    Debug.Log(knight.ToString());
+                    inCheck = true;
+                    return;
+                }
+            }
+
             inCheck = false;
         }
     }
@@ -159,6 +169,11 @@ public class King: Piece {
             GameObject obj = c.gameObject;
 
             if(obj.CompareTag("Queen") || obj.CompareTag("Bishop")) {
+                Debug.Log(obj.ToString());
+                return true;
+            }
+
+            if(obj.CompareTag("Pawn") && obj.GetComponent<Pawn>().ValidMove(transform.position)) {
                 Debug.Log(obj.ToString());
                 return true;
             }
