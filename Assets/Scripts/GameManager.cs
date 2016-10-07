@@ -73,12 +73,12 @@ public class GameManager: MonoBehaviour {
         switch(turn) {
             case PlayerSide.Black:
                 foreach(King king in kings) {
-                    if(king.name == "BlackKing(Clone)") {
+                    if(king.name == "WhiteKing(Clone)") {
                         if(king.InCheck()) {
-                            black.state = PlayerState.Check;
+                            white.state = PlayerState.Check;
                             break;
                         } else {
-                            black.state = PlayerState.Normal;
+                            white.state = PlayerState.Normal;
                             break;
                         }
                     }
@@ -86,12 +86,12 @@ public class GameManager: MonoBehaviour {
                 break;
             default:
                 foreach(King king in kings) {
-                    if(king.name == "WhiteKing(Clone)") {
+                    if(king.name == "BlackKing(Clone)") {
                         if(king.InCheck()) {
-                            white.state = PlayerState.Check;
+                            black.state = PlayerState.Check;
                             break;
                         } else {
-                            white.state = PlayerState.Normal;
+                            black.state = PlayerState.Normal;
                             break;
                         }
                     }

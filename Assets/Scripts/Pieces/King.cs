@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System;
 
 /// <summary>
@@ -116,18 +118,17 @@ public class King: Piece {
 
             inCheck = true;
         } else {
-            Knight[] knights = FindObjectsOfType<Knight>();
-
             // because knights are so special
-            foreach(Knight knight in knights) {
-                if(knight.GetAffiliation() != mySide && knight.ValidMove(transform.position)) {
-                    Debug.Log(knight.ToString());
-                    inCheck = true;
-                    return;
-                }
-            }
+            IEnumerable<Knight> knights = from knight in FindObjectsOfType<Knight>()
+                                          where knight.GetAffiliation() != mySide &&
+                                                knight.ValidMove(transform.position)
+                                          select knight;
 
-            inCheck = false;
+            if(knights.Any()) {
+                inCheck = true;
+            } else {
+                inCheck = false;
+            }
         }
     }
 

@@ -72,6 +72,10 @@ public class Square: MonoBehaviour {
                 }
             }
         } else {
+            if(currentPlayerState == GameManager.PlayerState.Check) {
+                return;
+            }
+
             if(myPiece != null) {
                 GameManager.PlayerSide mySide = myPiece.GetAffiliation();
 
@@ -111,7 +115,6 @@ public class Square: MonoBehaviour {
 
     // routines to run on successful execution of a move
     void CompleteMove() {
-        GameManager.EvaluateState();
         GameObject[] allObjs = FindObjectsOfType<GameObject>();
         string pawnName;
 
@@ -122,6 +125,8 @@ public class Square: MonoBehaviour {
             pawnName = "WhitePawn(Clone)";
             GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
         }
+
+        GameManager.EvaluateState();
 
         foreach(GameObject obj in allObjs) {
             if(obj.name == pawnName) {
