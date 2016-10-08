@@ -151,7 +151,6 @@ public class Square: MonoBehaviour {
                     king.EvalCheck();
                     if(king.InCheck()) {
                         srcPiece.MoveTo(oldPos);
-                        king.EvalCheck();
                         if(isPawn) { DestroyOrReplaceInactivePawns(1); };
                         return false;
                     }
@@ -163,7 +162,6 @@ public class Square: MonoBehaviour {
                     king.EvalCheck();
                     if(king.InCheck()) {
                         srcPiece.MoveTo(oldPos);
-                        king.EvalCheck();
                         if(isPawn) { DestroyOrReplaceInactivePawns(1); };
                         return false;
                     }
