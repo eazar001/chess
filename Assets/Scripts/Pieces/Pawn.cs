@@ -99,7 +99,7 @@ public class Pawn: Piece {
                 if(otherPiece.CompareTag("Pawn") && mySide != otherSide) {
                     if(otherPiece.GetComponent<Pawn>().EnpassantAvailable()) {
                         firstMove = false;
-                        otherPiece.Remove();
+                        otherPiece.PickUp();
                         return true;
                     }
                 }

@@ -136,10 +136,6 @@ public class King: Piece {
         return inCheck;
     }
 
-    public void SetCheck() {
-        inCheck = !inCheck;
-    }
-
     // Check condition passes if colliding with rook or queen enemy collider
     bool RegularEnemyCollision(RaycastHit2D r) {
         Collider2D c = r.collider;
@@ -151,7 +147,6 @@ public class King: Piece {
             GameObject obj = c.gameObject;
 
             if(obj.CompareTag("Rook") || obj.CompareTag("Queen")) {
-                Debug.Log(obj.ToString());
                 return true;
             }
         }
@@ -170,12 +165,10 @@ public class King: Piece {
             GameObject obj = c.gameObject;
 
             if(obj.CompareTag("Queen") || obj.CompareTag("Bishop")) {
-                Debug.Log(obj.ToString());
                 return true;
             }
 
             if(obj.CompareTag("Pawn") && obj.GetComponent<Pawn>().ValidMove(transform.position)) {
-                Debug.Log(obj.ToString());
                 return true;
             }
         }

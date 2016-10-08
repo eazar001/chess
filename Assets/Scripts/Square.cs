@@ -29,11 +29,9 @@ public class Square: MonoBehaviour {
 
         switch(currentPlayerState) {
             case GameManager.PlayerState.Normal:
-                Debug.Log("I'm not in check");
                 NormalMouseDown();
                 break;
             case GameManager.PlayerState.Check:
-                Debug.Log("I'm in check");
                 CheckMouseDown();
                 break;
             default:
@@ -56,6 +54,12 @@ public class Square: MonoBehaviour {
 
                 if(myPiece == null) {
                     if(srcPiece.ValidMove(transform.position)) {
+                        Vector2 oldPos = srcPiece.transform.position;
+                        srcPiece.MoveTo(transform.position);
+
+                        if(!TestMove(srcPiece, oldPos)) { return; }
+
+                        srcPiece.MoveTo(oldPos);
                         srcPiece.PlaceAt(transform.position);
                         CompleteMove();
                     }
@@ -63,6 +67,11 @@ public class Square: MonoBehaviour {
                     mySide = myPiece.GetAffiliation();
 
                     if(mySide != srcSide && srcPiece.ValidMove(transform.position)) {
+                        Vector2 oldPos = srcPiece.transform.position;
+                        srcPiece.MoveTo(transform.position);
+
+                        if(!TestMove(srcPiece, oldPos)) { return; }
+
                         myPiece.Remove();
                         myPiece = null;
                         srcPiece.PlaceAt(transform.position);
@@ -72,10 +81,6 @@ public class Square: MonoBehaviour {
                 }
             }
         } else {
-            if(currentPlayerState == GameManager.PlayerState.Check) {
-                return;
-            }
-
             if(myPiece != null) {
                 GameManager.PlayerSide mySide = myPiece.GetAffiliation();
 
@@ -135,5 +140,64 @@ public class Square: MonoBehaviour {
         }
 
         GameManager.NextTurn();
+    }
+
+    // Ensure that the player isn't placing him/herself in check
+    bool TestMove(Piece srcPiece, Vector2 oldPos) {
+        bool isPawn = srcPiece.gameObject.CompareTag("Pawn");
+
+        if(GameManager.turn == GameManager.PlayerSide.White) {
+            foreach(King king in FindObjectsOfType<King>()) {
+                if(king.name == "WhiteKing(Clone)") {
+                    king.EvalCheck();
+                    if(king.InCheck()) {
+                        srcPiece.MoveTo(oldPos);
+                        king.EvalCheck();
+                        if(isPawn) { DestroyOrReplaceInactivePawns(1); };
+                        return false;
+                    }
+                }
+            }
+        } else {
+            foreach(King king in FindObjectsOfType<King>()) {
+                if(king.name == "BlackKing(Clone)") {
+                    king.EvalCheck();
+                    if(king.InCheck()) {
+                        srcPiece.MoveTo(oldPos);
+                        king.EvalCheck();
+                        if(isPawn) { DestroyOrReplaceInactivePawns(1); };
+                        return false;
+                    }
+                }
+            }
+        }
+
+        if(isPawn) { DestroyOrReplaceInactivePawns(0); };
+        return true;
+    }
+
+    // To handle move tests during en passant
+    void DestroyOrReplaceInactivePawns(uint option) {
+        switch(option) {
+            // destroy
+            case 0:
+                foreach(Pawn pawn in Resources.FindObjectsOfTypeAll<Pawn>()) {
+                    if(!(pawn.name == "WhitePawn" || pawn.name == "BlackPawn")) {
+                        if(!pawn.isActiveAndEnabled) {
+                            pawn.Remove();
+                        }
+                    }
+                }
+                break;
+            default:
+                foreach(Pawn pawn in Resources.FindObjectsOfTypeAll<Pawn>()) {
+                    if(!(pawn.name == "WhitePawn" || pawn.name == "BlackPawn")) {
+                        if(!pawn.isActiveAndEnabled) {
+                            pawn.gameObject.SetActive(true);
+                        }
+                    }
+                }
+                break;
+        }
     }
 }
