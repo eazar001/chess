@@ -59,7 +59,6 @@ public class Square: MonoBehaviour {
 
                         if(!TestMove(srcPiece, oldPos)) { return; }
 
-                        srcPiece.MoveTo(oldPos);
                         srcPiece.PlaceAt(transform.position);
                         CompleteMove();
                     }

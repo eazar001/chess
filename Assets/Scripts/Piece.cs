@@ -73,7 +73,8 @@ public abstract class Piece: MonoBehaviour {
         BoardManager.squareSelected = false;
     }
 
-    // This method is for directly moving a piece. Useful for situations like castling.
+    // This method is for directly moving a piece. Useful for situations like castling and testing
+    // moves before finalizing them.
     public void MoveTo(Vector2 pos) {
         Vector3 newPos = pos;
         newPos += Vector3.forward;
