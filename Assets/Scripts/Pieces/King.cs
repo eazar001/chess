@@ -92,6 +92,10 @@ public class King: Piece {
         return false;
     }
 
+    /// <summary>
+    /// Determine whether or not the piece is current in check and mark the corresponding property
+    /// for the King piece.
+    /// </summary>
     public void EvalCheck() {
         mySide = GetAffiliation();
         Vector2 myPos = transform.position;

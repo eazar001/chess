@@ -55,11 +55,19 @@ public abstract class Piece: MonoBehaviour {
         k8 = new Vector2(-2.0f*xMove, -yMove);
     }
 
+    /// <summary>
+    /// Verify that a move is within the ruleset of the piece's implementation.
+    /// </summary>
+    /// <param name="pos">The hypothetical position to move the piece to.</param>
+    /// <returns>Returns a bool indicating whether or not pos is within moveset.</returns>
     public abstract bool ValidMove(Vector2 pos);
 
-    // This is the main method for executing moves requested directly by the user, i.e. non
-    // special moves (like castling) that are requested by selecting source and destination and
-    // awaiting validation. Moves should generally always be initiated with this method.
+    /// <summary>
+    /// This is the main method for executing moves requested directly by the user, i.e. non
+    /// special moves (like castling) that are requested by selecting source and destination and
+    /// awaiting validation. Moves should generally always be initiated with this method.
+    /// </summary>
+    /// <param name="pos">The position to place the piece at.</param>
     public void PlaceAt(Vector2 pos) {
         Vector3 newPos = pos;
         newPos += Vector3.forward;
@@ -73,23 +81,37 @@ public abstract class Piece: MonoBehaviour {
         BoardManager.squareSelected = false;
     }
 
-    // This method is for directly moving a piece. Useful for situations like castling and testing
-    // moves before finalizing them.
+    /// <summary>
+    /// This method is for directly moving a piece. Useful for situations like castling and testing
+    /// moves before finalizing them. Using this method entails none of the default bookeeping that
+    /// is associated with the `PlaceAt` method.
+    /// </summary>
+    /// <param name="pos">The position to directly move the piece to.</param>
     public void MoveTo(Vector2 pos) {
         Vector3 newPos = pos;
         newPos += Vector3.forward;
         transform.position = newPos;
     }
 
+    /// <summary>
+    /// Deactivate the piece without destroying the gameobject it's associated with.
+    /// </summary>
     public void PickUp() {
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Destroy and permanently remove this piece instance from the game.
+    /// </summary>
     public void Remove() {
         PickUp();
         Destroy(gameObject);
     }
 
+    /// <summary>
+    /// Gets the affiliation of the current piece.
+    /// </summary>
+    /// <returns>Returns which side the piece is affiliated with (black, white).</returns>
     public GameManager.PlayerSide GetAffiliation() {
         return affiliation.side;
     }

@@ -44,8 +44,11 @@ public class Pawn: Piece {
         return false;
     }
 
-    // This indicates that the last move the pawn made was En Passant. This variable will be reset
-    // on the next move.
+    /// <summary>
+    /// This indicates that the last move the pawn made was En Passant. This variable will be reset
+    /// on the next move.
+    /// </summary>
+    /// <returns>Returns true if the piece can be captured be capture via En Passant.</returns>
     protected bool EnpassantAvailable() {
         return enpassantAvailable;
     }

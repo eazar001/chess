@@ -1,11 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Management of all variables and operations necessary to keep the game running consistently and
+/// correctly.
+/// </summary>
 public class GameManager: MonoBehaviour {
 
-    public static PlayerSide turn { get; set; }
-    public static Player white;
-    public static Player black;
+    /// <summary>
+    /// Whose turn is it?
+    /// </summary>
+    public static PlayerSide turn { get; private set; }
+
+    static Player white;
+    static Player black;
     public PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
     BoardManager b;
 
@@ -20,8 +28,20 @@ public class GameManager: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// The player struct type.
+    /// </summary>
     public struct Player {
+
+        /// <summary>
+        /// Which side is it? (white, black)
+        /// </summary>
         public PlayerSide side;
+
+
+        /// <summary>
+        /// What's the player's state? (normal, check, checkmate)
+        /// </summary>
         public PlayerState state;
 
         public Player(PlayerSide side, PlayerState state) {
@@ -30,11 +50,17 @@ public class GameManager: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// What side is the player on?
+    /// </summary>
     public enum PlayerSide {
         White,
         Black,
     }
 
+    /// <summary>
+    /// What is the current state of the player?
+    /// </summary>
     public enum PlayerState {
         Normal,
         Check,
@@ -59,6 +85,9 @@ public class GameManager: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Switch to the next player's turn.
+    /// </summary>
     public static void NextTurn() {
         if(turn == PlayerSide.Black) {
             turn = PlayerSide.White;
@@ -67,6 +96,10 @@ public class GameManager: MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Evaluate the state of the current player and update the respective properties for that 
+    /// player.
+    /// </summary>
     public static void EvaluateState() {
         King[] kings = FindObjectsOfType<King>();
 
@@ -102,14 +135,25 @@ public class GameManager: MonoBehaviour {
 
     // This method is used for switching sides (and visual perspective for main player)
     void FlipBoard() {
-        GameObject camera = GameObject.FindWithTag("MainCamera");
-
-        camera.transform.Rotate(new Vector3(0, 0, 180));
+        Vector3 rotationVector = new Vector3(0, 0, 180);
 
         foreach(GameObject obj in FindObjectsOfType<GameObject>()) {
-            if(!obj.CompareTag("MainCamera") && obj.name != "GameManager") {
-                obj.transform.Rotate(new Vector3(0, 0, 180));
+            if(obj.name != "GameManager") {
+                obj.transform.Rotate(rotationVector);
             }
+        }
+    }
+
+    /// <summary>
+    /// Find the state of whichever player's turn it is.
+    /// </summary>
+    /// <returns>The game state of the whichever player's turn it is.</returns>
+    public static PlayerState GetState() {
+        switch(GameManager.turn) {
+            case PlayerSide.Black:
+                return black.state;
+            default:
+                return white.state;
         }
     }
 }

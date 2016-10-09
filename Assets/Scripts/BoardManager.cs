@@ -1,16 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/// <summary>
+/// Management and coordination of all objects that interact with the board.
+/// </summary>
 public class BoardManager {
 
     GameObject[] allObjs;
     GameObject lightSquare, darkSquare;
 
-    public static float xMove, yMove;
+    /// <summary>
+    /// Represents one positive unit of a movement in the x component.
+    /// </summary>
+    public static float xMove { get; private set; }
+
+    /// <summary>
+    /// Represents one positive unit of a movement in the y component.
+    /// </summary>
+    public static float yMove { get; private set; }
+
+
     public static bool squareSelected { get; set; }
     public static Piece srcPiece { get; set; }
     public static Square srcSquare { get; set; }
 
+    /// <summary>
+    /// BoardManager class constructer.
+    /// </summary>
+    /// <param name="x">specifies the positive unit of movement for the x component.</param>
+    /// <param name="y">specifies the positive unit of movement for the y component.</param>
     public BoardManager(float x, float y) {
         xMove = x;
         yMove = y;
@@ -43,7 +61,6 @@ public class BoardManager {
 
         for(int i = 0; i < 8; ++i) {
             for(int j = 0; j < 4; ++j) {
-
                 switch(i) {
                     case 0:
                         switch(j) {

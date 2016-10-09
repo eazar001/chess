@@ -37,7 +37,7 @@ public class Queen: Piece {
             } else if(xDist > 0.0f) {
                 return LegalMove(Physics2D.Raycast(myPos, leftDir, dist, 1), pos);
             }
-        } else if(Math.Abs(Mathf.Abs(xDist) - Mathf.Abs(yDist)) < xMove/2.0f) {
+        } else if(Mathf.Abs(Mathf.Abs(xDist) - Mathf.Abs(yDist)) < xMove/2.0f) {
             if(yDist < 0.0f) {
                 if(xDist < 0.0f) {
                     return LegalMove(Physics2D.Raycast(myPos, d1, dist, 1), pos);

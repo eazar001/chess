@@ -7,7 +7,6 @@ public class Square: MonoBehaviour {
     public bool selected { get; set; }
     public Piece myPiece { get; set; }
 
-    GameManager.PlayerSide currentPlayer;
     GameManager.PlayerState currentPlayerState;
 
     void Start() {
@@ -16,16 +15,7 @@ public class Square: MonoBehaviour {
     }
 
     void OnMouseDown() {
-        currentPlayer = GameManager.turn;
-
-        switch(currentPlayer) {
-            case GameManager.PlayerSide.White:
-                currentPlayerState = GameManager.white.state;
-                break;
-            default:
-                currentPlayerState = GameManager.black.state;
-                break;
-        }
+        currentPlayerState = GameManager.GetState();
 
         switch(currentPlayerState) {
             case GameManager.PlayerState.Normal:
@@ -40,6 +30,7 @@ public class Square: MonoBehaviour {
         }
     }
 
+    // Handling the mousedown event in a normal state
     void NormalMouseDown() {
         if(BoardManager.squareSelected) {
             if(selected) {
@@ -94,6 +85,7 @@ public class Square: MonoBehaviour {
         }
     }
 
+    // handling the mousedown event while in a check state.
     void CheckMouseDown() {
 
 
@@ -141,7 +133,14 @@ public class Square: MonoBehaviour {
         GameManager.NextTurn();
     }
 
-    // Ensure that the player isn't placing him/herself in check
+    /// <summary>
+    /// Ensure the the player isn't placing him/herself in check by evaluating the current position
+    /// the the player is moved to. If the position is compromising, then the player is moved back
+    /// to the original supplied position.
+    /// </summary>
+    /// <param name="srcPiece">The piece whose position is to be inspected.</param>
+    /// <param name="oldPos">The position of srcPiece prior to inspection.</param>
+    /// <returns></returns>
     bool TestMove(Piece srcPiece, Vector2 oldPos) {
         bool isPawn = srcPiece.gameObject.CompareTag("Pawn");
 
@@ -186,6 +185,8 @@ public class Square: MonoBehaviour {
                     }
                 }
                 break;
+            
+            // replace
             default:
                 foreach(Pawn pawn in Resources.FindObjectsOfTypeAll<Pawn>()) {
                     if(!(pawn.name == "WhitePawn" || pawn.name == "BlackPawn")) {
