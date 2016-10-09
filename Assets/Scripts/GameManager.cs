@@ -97,8 +97,8 @@ public class GameManager: MonoBehaviour {
     }
 
     /// <summary>
-    /// Evaluate the state of the current player and update the respective properties for that 
-    /// player.
+    /// Evaluate the state of the player with initiative and update the respective properties for
+    /// that player.
     /// </summary>
     public static void EvaluateState() {
         King[] kings = FindObjectsOfType<King>();
@@ -145,9 +145,9 @@ public class GameManager: MonoBehaviour {
     }
 
     /// <summary>
-    /// Find the state of whichever player's turn it is.
+    /// Find the state of whichever player has the initiative.
     /// </summary>
-    /// <returns>The game state of the whichever player's turn it is.</returns>
+    /// <returns>Returns the game state of the whichever player has the initiative.</returns>
     public static PlayerState GetState() {
         switch(GameManager.turn) {
             case PlayerSide.Black:

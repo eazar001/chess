@@ -93,7 +93,7 @@ public class King: Piece {
     }
 
     /// <summary>
-    /// Determine whether or not the piece is current in check and mark the corresponding property
+    /// Determine whether or not the piece is currently in check and mark the corresponding property
     /// for the King piece.
     /// </summary>
     public void EvalCheck() {
