@@ -29,10 +29,11 @@ public abstract class Piece: MonoBehaviour {
     protected Vector2 k7 { get; private set; }
     protected Vector2 k8 { get; private set; }
 
-    public Affiliation affiliation;
+    [SerializeField]
+    Affiliation affiliation;
 
     [System.Serializable]
-    public struct Affiliation {
+    struct Affiliation {
         public GameManager.PlayerSide side;
     }
 

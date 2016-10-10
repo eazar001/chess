@@ -10,8 +10,24 @@ using System;
 public class King: Piece {
 
     bool firstMove = true;
+
+    public bool FirstMove {
+        get { return firstMove; }
+        set { firstMove = value; }
+    }
+
     GameManager.PlayerSide mySide;
     bool inCheck = false;
+    bool inCheckMate = false;
+
+    public bool InCheck {
+        get { return inCheck; }
+    }
+
+    public bool InCheckMate {
+        get { return inCheckMate; }
+    }
+
     Vector2 upDir = Vector2.up;
     Vector2 downDir = Vector2.down;
     Vector2 leftDir = Vector2.left;
@@ -36,7 +52,6 @@ public class King: Piece {
         if((pos == myPos + y1) || pos == myPos + d2 || pos == myPos - y1 || pos == myPos - d1
             || pos == myPos - d2 || pos == myPos + d1 || pos == myPos + x1 || pos == myPos - x1) {
 
-            firstMove = false;
             return true;
         }
 
@@ -70,19 +85,19 @@ public class King: Piece {
             Rook rook = otherObj.GetComponent<Rook>();
 
             if(direction == Vector2.right) {
-                if(mySide == otherSide && rook.firstMove) {
+                if(mySide == otherSide && rook.FirstMove) {
                     Vector2 rookPos = otherPos - x1;
                     rookPos -= x1;
-                    rook.firstMove = false;
+                    rook.FirstMove = false;
                     rook.MoveTo(rookPos);
                     return true;
                 }
             } else {
-                if(mySide == otherSide && rook.firstMove) {
+                if(mySide == otherSide && rook.FirstMove) {
                     Vector2 rookPos = otherPos + x1;
                     rookPos += x1;
                     rookPos += x1;
-                    rook.firstMove = false;
+                    rook.FirstMove = false;
                     rook.MoveTo(rookPos);
                     return true;
                 }
@@ -136,8 +151,46 @@ public class King: Piece {
         }
     }
 
-    public bool InCheck() {
-        return inCheck;
+    /// <summary>
+    /// Determine whether or not the player's king piece is currently in checkmate and mark the
+    /// corresponding property as such.
+    /// </summary>
+    public void EvalCheckMate() {
+        // We obviously can't be in checkmate if we're not even in check
+        if(!inCheck) {
+            inCheckMate = false;
+            return;
+        }
+
+        IEnumerable<Piece> myPieces = from piece in FindObjectsOfType<Piece>()
+                                      where mySide == piece.GetAffiliation()
+                                      select piece;
+
+        // Determine whether any of player's pieces can break the check here
+        foreach(Piece piece in myPieces) {
+            switch(piece.tag) {
+                case "King":
+                    break;
+
+                case "Knight":
+                    break;
+
+                case "Bishop":
+                    break;
+
+                case "Rook":
+                    break;
+
+                case "Queen":
+                    break;
+
+                case "Pawn":
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     // Check condition passes if colliding with rook or queen enemy collider

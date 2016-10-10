@@ -14,7 +14,10 @@ public class GameManager: MonoBehaviour {
 
     static Player white;
     static Player black;
-    public PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
+
+    [SerializeField]
+    PieceMovement movementProperties = new PieceMovement(0.68f, 0.70f);
+
     BoardManager b;
 
     [System.Serializable]
@@ -31,7 +34,7 @@ public class GameManager: MonoBehaviour {
     /// <summary>
     /// The player struct type.
     /// </summary>
-    public struct Player {
+    struct Player {
 
         /// <summary>
         /// Which side is it? (white, black)
@@ -107,7 +110,7 @@ public class GameManager: MonoBehaviour {
             case PlayerSide.Black:
                 foreach(King king in kings) {
                     if(king.name == "WhiteKing(Clone)") {
-                        if(king.InCheck()) {
+                        if(king.InCheck) {
                             white.state = PlayerState.Check;
                             break;
                         } else {
@@ -120,7 +123,7 @@ public class GameManager: MonoBehaviour {
             default:
                 foreach(King king in kings) {
                     if(king.name == "BlackKing(Clone)") {
-                        if(king.InCheck()) {
+                        if(king.InCheck) {
                             black.state = PlayerState.Check;
                             break;
                         } else {

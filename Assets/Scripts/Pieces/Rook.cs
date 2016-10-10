@@ -7,7 +7,12 @@ using System;
 /// </summary>
 public class Rook: Piece {
     
-    public bool firstMove = true;
+    bool firstMove = true;
+
+    public bool FirstMove {
+        get { return firstMove; }
+        set { firstMove = value; }
+    }
 
     public override bool ValidMove(Vector2 pos) {
         Vector2 upDir = Vector2.up;
@@ -46,11 +51,9 @@ public class Rook: Piece {
 
     bool LegalMove(RaycastHit2D ray, Vector2 pos) {
         if(ray.collider == null) {
-            firstMove = false;
             return true;
         } else {
             if((Vector2)ray.collider.transform.position == pos) {
-                firstMove = false;
                 return true;
             }
         }

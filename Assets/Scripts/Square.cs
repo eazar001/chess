@@ -46,7 +46,6 @@ public class Square: MonoBehaviour {
                 if(myPiece == null) {
                     if(srcPiece.ValidMove(transform.position)) {
                         Vector2 oldPos = srcPiece.transform.position;
-                        srcPiece.MoveTo(transform.position);
 
                         if(!TestMove(srcPiece, oldPos)) { return; }
 
@@ -58,7 +57,6 @@ public class Square: MonoBehaviour {
 
                     if(mySide != srcSide && srcPiece.ValidMove(transform.position)) {
                         Vector2 oldPos = srcPiece.transform.position;
-                        srcPiece.MoveTo(transform.position);
 
                         if(!TestMove(srcPiece, oldPos)) { return; }
 
@@ -142,15 +140,16 @@ public class Square: MonoBehaviour {
     /// <param name="oldPos">The position of srcPiece prior to inspection.</param>
     /// <returns></returns>
     bool TestMove(Piece srcPiece, Vector2 oldPos) {
-        bool isPawn = srcPiece.gameObject.CompareTag("Pawn");
+        GameObject srcObject = srcPiece.gameObject;
+        srcPiece.MoveTo(transform.position);
 
         if(GameManager.turn == GameManager.PlayerSide.White) {
             foreach(King king in FindObjectsOfType<King>()) {
                 if(king.name == "WhiteKing(Clone)") {
                     king.EvalCheck();
-                    if(king.InCheck()) {
+                    if(king.InCheck) {
                         srcPiece.MoveTo(oldPos);
-                        if(isPawn) { DestroyOrReplaceInactivePawns(1); };
+                        if(srcObject.CompareTag("Pawn")) { DestroyOrReplaceInactivePawns(1); };
                         return false;
                     }
                 }
@@ -159,16 +158,24 @@ public class Square: MonoBehaviour {
             foreach(King king in FindObjectsOfType<King>()) {
                 if(king.name == "BlackKing(Clone)") {
                     king.EvalCheck();
-                    if(king.InCheck()) {
+                    if(king.InCheck) {
                         srcPiece.MoveTo(oldPos);
-                        if(isPawn) { DestroyOrReplaceInactivePawns(1); };
+                        if(srcObject.CompareTag("Pawn")) { DestroyOrReplaceInactivePawns(1); };
                         return false;
                     }
                 }
             }
         }
 
-        if(isPawn) { DestroyOrReplaceInactivePawns(0); };
+        if(srcObject.CompareTag("Pawn")) {
+            srcObject.GetComponent<Pawn>().FirstMove = false;
+            DestroyOrReplaceInactivePawns(0);
+        } else if(srcObject.CompareTag("King")) {
+            srcObject.GetComponent<King>().FirstMove = false;
+        } else if(srcObject.CompareTag("Rook")) {
+            srcObject.GetComponent<Rook>().FirstMove = false;
+        }
+
         return true;
     }
 

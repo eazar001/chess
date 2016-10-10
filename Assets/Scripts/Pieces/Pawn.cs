@@ -8,7 +8,22 @@ using System.Collections;
 public class Pawn: Piece {
 
     bool firstMove = true;
+
+    public bool FirstMove {
+        get { return firstMove; }
+        set { firstMove = value; }
+    }
+
     public bool enpassantAvailable = false;
+
+    /// <summary>
+    /// Indicates whether or not En Passant is available to the adversary.
+    /// </summary>
+    /// <returns>Returns true if the piece can be captured be capture via En Passant.</returns>
+    protected bool EnpassantAvailable {
+        get { return enpassantAvailable; }
+    }
+
     Vector2 diag1, diag2;
 
     public override bool ValidMove(Vector2 pos) {
@@ -44,17 +59,8 @@ public class Pawn: Piece {
         return false;
     }
 
-    /// <summary>
-    /// Indicates whether or not En Passant is available to the adversary.
-    /// </summary>
-    /// <returns>Returns true if the piece can be captured be capture via En Passant.</returns>
-    protected bool EnpassantAvailable() {
-        return enpassantAvailable;
-    }
-
     bool LegalMove(RaycastHit2D ray, uint squaresUp) {
         if(ray.collider == null) {
-            firstMove = false;
             if(squaresUp > 1) {
                 enpassantAvailable = true;
             } else {
@@ -69,7 +75,6 @@ public class Pawn: Piece {
 
     bool LegalDiagonal(RaycastHit2D ray, Vector2 dir, Vector2 myPos, Vector2 pos) {
         if(ray.collider != null) {
-            firstMove = false;
             return true;
         } else {
             Vector2 eDir;
@@ -99,8 +104,7 @@ public class Pawn: Piece {
                 GameManager.PlayerSide otherSide = otherPiece.GetAffiliation();
 
                 if(otherPiece.CompareTag("Pawn") && mySide != otherSide) {
-                    if(otherPiece.GetComponent<Pawn>().EnpassantAvailable()) {
-                        firstMove = false;
+                    if(otherPiece.GetComponent<Pawn>().EnpassantAvailable) {
                         otherPiece.PickUp();
                         return true;
                     }
