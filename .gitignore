@@ -1,6 +1,7 @@
 .vs/
 Library/
 chess.CSharp.csproj
+chess.CSharp.Editor.csproj
 chess.exe
 chess.sln
 chess_Data/
