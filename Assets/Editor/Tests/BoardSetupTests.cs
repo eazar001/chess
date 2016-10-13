@@ -21,7 +21,6 @@ public class BoardSetupTests {
     [Test]
     public void BoardTest() {
         int numSquares = GameObject.FindObjectsOfType<Square>().Length;
-        int numGameManagers = GameObject.FindObjectsOfType<GameManager>().Length;
 
         IEnumerable<Square> lightSquares = from square in GameObject.FindObjectsOfType<Square>()
                                            where square.name == "LightSquare(Clone)"
@@ -37,7 +36,6 @@ public class BoardSetupTests {
         Assert.AreEqual(numSquares, 64);
         Assert.AreEqual(lightSquareArray.Length, 32);
         Assert.AreEqual(darkSquareArray.Length, 32);
-        Assert.AreEqual(numGameManagers, 1);
     }
 
     [Test]
