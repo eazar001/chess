@@ -38,6 +38,10 @@ public abstract class Piece: MonoBehaviour {
     }
 
     void Start() {
+        InitMoveSet();
+    }
+
+    public void InitMoveSet() {
         xMove = BoardManager.xMove;
         yMove = BoardManager.yMove;
 

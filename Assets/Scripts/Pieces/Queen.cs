@@ -25,13 +25,13 @@ public class Queen: Piece {
         float yDist = myY - otherY;
 
 
-        if(myX == otherX) {
+        if(Mathf.Approximately(myX, otherX)) {
             if(yDist < 0.0f) {
                 return LegalMove(Physics2D.Raycast(myPos, upDir, dist, 1), pos);
             } else if(yDist > 0.0f) {
                 return LegalMove(Physics2D.Raycast(myPos, downDir, dist, 1), pos);
             }
-        } else if(myY == otherY) {
+        } else if(Mathf.Approximately(myY, otherY)) {
             if(xDist < 0.0f) {
                 return LegalMove(Physics2D.Raycast(myPos, rightDir, dist, 1), pos);
             } else if(xDist > 0.0f) {
