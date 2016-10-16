@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Management of all variables and operations necessary to keep the game running consistently and
@@ -71,15 +73,31 @@ public class GameManager: MonoBehaviour {
     }
 
     void Start() {
+        IEnumerable<Square> squares = FindObjectsOfType<Square>();
+        IEnumerable<Piece> pieces = FindObjectsOfType<Piece>();
+
         white = new Player(PlayerSide.White, PlayerState.Normal);
         black = new Player(PlayerSide.Black, PlayerState.Normal);
         turn = white.side;
 
-        float xMove = movementProperties.xMove;
-        float yMove = movementProperties.yMove;
+        if(squares.Any()) {
+            float xMove = movementProperties.xMove;
+            float yMove = movementProperties.yMove;
 
-        b = new BoardManager(xMove, yMove);
-        b.CreateBoard();
+            b = new BoardManager(xMove, yMove);
+
+            if(pieces.Any()) {
+                foreach(Piece piece in pieces) {
+                    piece.InitMoveSet();
+                }
+            }
+        } else {
+            float xMove = movementProperties.xMove;
+            float yMove = movementProperties.yMove;
+
+            b = new BoardManager(xMove, yMove);
+            b.CreateBoard();
+        }
     }
 
     void Update() {
