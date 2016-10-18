@@ -128,9 +128,11 @@ public class GameManager: MonoBehaviour {
             case PlayerSide.Black:
                 foreach(King king in kings) {
                     if(king.name == "WhiteKing(Clone)") {
-                        if(king.InCheck) {
+                        if(king.InCheck && !king.InCheckMate) {
                             white.state = PlayerState.Check;
                             break;
+                        } else if(king.InCheck && king.InCheckMate) {
+                            Application.Quit();
                         } else {
                             white.state = PlayerState.Normal;
                             break;
@@ -141,9 +143,11 @@ public class GameManager: MonoBehaviour {
             default:
                 foreach(King king in kings) {
                     if(king.name == "BlackKing(Clone)") {
-                        if(king.InCheck) {
+                        if(king.InCheck && !king.InCheckMate) {
                             black.state = PlayerState.Check;
                             break;
+                        } else if(king.InCheck && king.InCheckMate) {
+                            Application.Quit();
                         } else {
                             black.state = PlayerState.Normal;
                             break;

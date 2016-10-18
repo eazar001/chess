@@ -22,10 +22,7 @@ public class Square: MonoBehaviour {
                 NormalMouseDown();
                 break;
             case GameManager.PlayerState.Check:
-                CheckMouseDown();
-                break;
-            default:
-                GameFinished();
+                NormalMouseDown();
                 break;
         }
     }
@@ -83,21 +80,6 @@ public class Square: MonoBehaviour {
         }
     }
 
-    // handling the mousedown event while in a check state.
-    void CheckMouseDown() {
-
-
-
-
-    }
-
-    void GameFinished() {
-
-
-
-
-    }
-
     void OnTriggerEnter2D(Collider2D otherCollider) {
         GameObject obj = otherCollider.gameObject;
         myPiece = obj.GetComponent<Piece>();
@@ -115,9 +97,12 @@ public class Square: MonoBehaviour {
         if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
             GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
+            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheckMate();
         } else {
             pawnName = "WhitePawn(Clone)";
             GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
+            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheckMate();
+
         }
 
         GameManager.EvaluateState();

@@ -168,29 +168,45 @@ public class King: Piece {
 
         // Determine whether any of player's pieces can break the check here
         foreach(Piece piece in myPieces) {
-            switch(piece.tag) {
-                case "King":
-                    break;
-
-                case "Knight":
-                    break;
-
-                case "Bishop":
-                    break;
-
-                case "Rook":
-                    break;
-
-                case "Queen":
-                    break;
-
-                case "Pawn":
-                    break;
-
-                default:
-                    break;
+            if(CanBreakCheck(piece)) {
+                inCheckMate = false;
+                return;
             }
         }
+
+        inCheckMate = true;
+    }
+
+    bool CanBreakCheck(Piece piece) {
+        return TryMoves(piece);
+    }
+
+    bool TryMoves(Piece piece) {
+        Square[] allSquares = FindObjectsOfType<Square>();
+        Vector2 oldPos = piece.transform.position;
+        Vector2 newPos;
+
+        foreach(Square square in allSquares) {
+            newPos = square.transform.position;
+
+            if(piece.ValidMove(newPos)
+                && (square.myPiece == null || square.myPiece.GetAffiliation() != mySide)) {
+
+                piece.MoveTo(newPos);
+                EvalCheck();
+
+                if(!inCheck) {
+                    // We must preserve the check state
+                    inCheck = true;
+                    piece.MoveTo(oldPos);
+                    return true;
+                }
+
+                piece.MoveTo(oldPos);
+            }
+        }
+
+        return false;
     }
 
     // Check condition passes if colliding with rook or queen enemy collider
