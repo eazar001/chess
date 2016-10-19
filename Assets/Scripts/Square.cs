@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class Square: MonoBehaviour {
 	
@@ -15,6 +17,10 @@ public class Square: MonoBehaviour {
     }
 
     void OnMouseDown() {
+        if(GameManager.promoting) {
+            return;
+        }
+
         currentPlayerState = GameManager.GetState();
 
         switch(currentPlayerState) {
@@ -94,6 +100,10 @@ public class Square: MonoBehaviour {
         GameObject[] allObjs = FindObjectsOfType<GameObject>();
         string pawnName;
 
+        if(AdvancedPawns()) {
+            GameManager.promoting = true;
+        }
+
         if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
             GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
@@ -128,6 +138,10 @@ public class Square: MonoBehaviour {
         GameObject srcObject = srcPiece.gameObject;
         srcPiece.MoveTo(transform.position);
 
+        if(myPiece != null) {
+            myPiece.PickUp();
+        }
+
         if(GameManager.turn == GameManager.PlayerSide.White) {
             foreach(King king in FindObjectsOfType<King>()) {
                 if(king.name == "WhiteKing(Clone)") {
@@ -135,6 +149,8 @@ public class Square: MonoBehaviour {
                     if(king.InCheck) {
                         srcPiece.MoveTo(oldPos);
                         if(srcObject.CompareTag("Pawn")) { DestroyOrReplaceInactivePawns(1); };
+                        if(myPiece != null) { myPiece.Replace(); }
+
                         return false;
                     }
                 }
@@ -146,6 +162,8 @@ public class Square: MonoBehaviour {
                     if(king.InCheck) {
                         srcPiece.MoveTo(oldPos);
                         if(srcObject.CompareTag("Pawn")) { DestroyOrReplaceInactivePawns(1); };
+                        if(myPiece != null) { myPiece.Replace(); }
+
                         return false;
                     }
                 }
@@ -160,6 +178,8 @@ public class Square: MonoBehaviour {
         } else if(srcObject.CompareTag("Rook")) {
             srcObject.GetComponent<Rook>().FirstMove = false;
         }
+
+        if(myPiece != null) { myPiece.Replace(); }
 
         return true;
     }
@@ -188,6 +208,62 @@ public class Square: MonoBehaviour {
                     }
                 }
                 break;
+        }
+    }
+
+    bool AdvancedPawns() {
+        foreach(Pawn pawn in FindObjectsOfType<Pawn>()) {
+            if(Mathf.Abs(pawn.transform.position.y) == 2.45f) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static void PromoteAnyPawns(string pieceType) {
+        Piece[] allPieces = Resources.FindObjectsOfTypeAll<Piece>();
+        Piece noPawn = null;
+
+        IEnumerable<Piece> pieceLib;
+
+        foreach(Pawn pawn in FindObjectsOfType<Pawn>()) {
+            Vector2 currPos = pawn.transform.position;
+            if(Mathf.Abs(pawn.transform.position.y) == 2.45f) {
+                if(pawn.GetAffiliation() == GameManager.PlayerSide.White) {
+                    pieceLib = from piece in allPieces
+                               where piece.GetAffiliation()
+                               == GameManager.PlayerSide.White
+                               && !piece.name.Contains("Clone")
+                               select piece;
+                } else {
+                    pieceLib = from piece in allPieces
+                               where piece.GetAffiliation()
+                               == GameManager.PlayerSide.Black
+                               && !piece.name.Contains("Clone")
+                               select piece;
+                }
+
+                pawn.Remove();
+                TransformPawn(pieceType, ref noPawn, pieceLib);
+                noPawn.GetComponent<Piece>().MoveTo(currPos);
+                noPawn.Replace();
+                return;
+            } else {
+                continue;
+            }
+        }
+    }
+
+    public static void TransformPawn(string pieceType,
+                                     ref Piece noPawn,
+                                     IEnumerable<Piece> pieceLib) {
+
+        foreach(Piece piece in pieceLib) {
+            if(pieceType == piece.tag) {
+                noPawn = Instantiate(piece);
+                break;
+            }
         }
     }
 }

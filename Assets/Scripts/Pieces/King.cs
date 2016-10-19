@@ -38,12 +38,24 @@ public class King: Piece {
         Vector2 myPos = transform.position;
 
         // Castling moves
-        if(firstMove) {
+        if(firstMove && !inCheck) {
             if(pos == myPos + 2.0f*x1) {
                 // King side
+                Vector2 pos2 = myPos + x1;
+
+                if(!TryCastle(pos) || !TryCastle(pos2)) {
+                    return false;
+                }
+
                 return LegalCastle(Vector2.right, myPos, pos);
             } else if(pos == myPos - 2.0f*x1) {
                 // Queen side
+                Vector2 pos2 = pos + x1;
+
+                if(!TryCastle(pos) || !TryCastle(pos2)) {
+                    return false;
+                }
+
                 return LegalCastle(Vector2.left, myPos, pos);
             }
         }
@@ -207,6 +219,24 @@ public class King: Piece {
         }
 
         return false;
+    }
+
+    bool TryCastle(Vector2 pos) {
+        Vector2 oldPos = transform.position;
+
+        gameObject.GetComponent<Piece>().MoveTo(pos);
+        EvalCheck();
+
+        if(inCheck) {
+            inCheck = false;
+            MoveTo(oldPos);
+
+            return false;
+        }
+
+        MoveTo(oldPos);
+
+        return true;
     }
 
     // Check condition passes if colliding with rook or queen enemy collider

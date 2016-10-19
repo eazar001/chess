@@ -13,6 +13,7 @@ public class GameManager: MonoBehaviour {
     /// Whose turn is it?
     /// </summary>
     public static PlayerSide turn { get; private set; }
+    public static bool promoting { get; set; }
 
     static Player white;
     static Player black;
@@ -103,6 +104,22 @@ public class GameManager: MonoBehaviour {
     void Update() {
         if(Input.GetKeyDown("escape")) {
             Application.Quit();
+        }
+
+        if(promoting) {
+            if(Input.GetKeyDown("q")) {
+                Square.PromoteAnyPawns("Queen");
+                promoting = false;
+            } else if(Input.GetKeyDown("r")) {
+                Square.PromoteAnyPawns("Rook");
+                promoting = false;
+            } else if(Input.GetKeyDown("b")) {
+                Square.PromoteAnyPawns("Bishop");
+                promoting = false;
+            } else if(Input.GetKeyDown("k")) {
+                Square.PromoteAnyPawns("Knight");
+                promoting = false;
+            }
         }
     }
 

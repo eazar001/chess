@@ -105,6 +105,10 @@ public abstract class Piece: MonoBehaviour {
         gameObject.SetActive(false);
     }
 
+    public void Replace() {
+        gameObject.SetActive(true);
+    }
+
     /// <summary>
     /// Destroy and permanently remove this piece instance from the game.
     /// </summary>

@@ -29,8 +29,6 @@ public abstract class ScenarioMoveTesting: MonoBehaviour {
 
         if(piece.ValidMove(pos)) {
             piece.PlaceAt(pos);
-        } else {
-            IntegrationTest.Fail();
         }
     }
 }
