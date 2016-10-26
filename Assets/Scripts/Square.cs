@@ -106,13 +106,18 @@ public class Square: MonoBehaviour {
 
         if(GameManager.turn == GameManager.PlayerSide.White) {
             pawnName = "BlackPawn(Clone)";
-            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheck();
-            GameObject.Find("BlackKing(Clone)").GetComponent<King>().EvalCheckMate();
+            King blackKing = GameObject.Find("BlackKing(Clone)").GetComponent<King>();
+
+            blackKing.EvalCheck();
+            blackKing.EvalCheckMate();
+            blackKing.EvalStaleMate();
         } else {
             pawnName = "WhitePawn(Clone)";
-            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheck();
-            GameObject.Find("WhiteKing(Clone)").GetComponent<King>().EvalCheckMate();
+            King whiteKing = GameObject.Find("WhiteKing(Clone)").GetComponent<King>();
 
+            whiteKing.EvalCheck();
+            whiteKing.EvalCheckMate();
+            whiteKing.EvalStaleMate();
         }
 
         GameManager.EvaluateState();
