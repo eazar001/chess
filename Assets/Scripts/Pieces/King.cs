@@ -17,8 +17,10 @@ public class King: Piece {
     }
 
     GameManager.PlayerSide mySide;
+
     bool inCheck = false;
     bool inCheckMate = false;
+    bool inStaleMate = false;
 
     public bool InCheck {
         get { return inCheck; }
@@ -26,6 +28,10 @@ public class King: Piece {
 
     public bool InCheckMate {
         get { return inCheckMate; }
+    }
+
+    public bool InStaleMate {
+        get { return inStaleMate; }
     }
 
     Vector2 upDir = Vector2.up;
@@ -187,6 +193,46 @@ public class King: Piece {
         }
 
         inCheckMate = true;
+    }
+
+    public void EvalStaleMate() {
+        // Stalemate is impossible while in check
+        if(inCheck) {
+            return;
+        }
+
+        Square[] allSquares = FindObjectsOfType<Square>();
+        Piece[] allPieces = FindObjectsOfType<Piece>();
+
+        foreach(Piece piece in allPieces) {
+            if(piece.GetAffiliation() != mySide) {
+                continue;
+            }
+
+            Vector2 oldPos = piece.transform.position;
+
+            foreach(Square square in allSquares) {
+                Vector2 newPos = square.transform.position;
+
+                if(piece.ValidMove(newPos)
+                    && (square.myPiece == null || square.myPiece.GetAffiliation() != mySide)) {
+
+                    piece.MoveTo(newPos);
+                    EvalCheck();
+
+                    if(!inCheck) {
+                        piece.MoveTo(oldPos);
+                        inStaleMate = false;
+                        return;
+                    } else {
+                        piece.MoveTo(oldPos);
+                        inCheck = false;
+                    }
+                }
+            }
+        }
+
+        inStaleMate = true;
     }
 
     bool CanBreakCheck(Piece piece) {

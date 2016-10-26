@@ -148,7 +148,7 @@ public class GameManager: MonoBehaviour {
                         if(king.InCheck && !king.InCheckMate) {
                             white.state = PlayerState.Check;
                             break;
-                        } else if(king.InCheck && king.InCheckMate) {
+                        } else if(king.InStaleMate || (king.InCheck && king.InCheckMate)) {
                             Application.Quit();
                         } else {
                             white.state = PlayerState.Normal;
