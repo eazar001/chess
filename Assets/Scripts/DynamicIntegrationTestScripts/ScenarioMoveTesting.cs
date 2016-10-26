@@ -16,9 +16,9 @@ public abstract class ScenarioMoveTesting: MonoBehaviour {
     // For mocking in-game movement conditions
 	protected void SimulateMove(Piece piece, Vector2 pos) {
         IEnumerable<Square> srcSquares = from square in FindObjectsOfType<Square>()
-                                 where (Vector2)square.transform.position ==
-                                       (Vector2)piece.transform.position
-                                 select square;
+                                         where (Vector2)square.transform.position ==
+                                               (Vector2)piece.transform.position
+                                         select square;
 
         Square srcSquare = srcSquares.ToArray().First();
 
